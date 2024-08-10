@@ -10,7 +10,7 @@ pub(crate) fn align_comments(file: String) {
     }
 }
 
-pub(crate) fn pad_text(split: Vec<(&str, Option<&str>)>) -> Vec<String> {
+fn pad_text(split: Vec<(&str, Option<&str>)>) -> Vec<String> {
     let mut transformed = Vec::new();
     let mut buffer = Vec::new();
     let mut longest = 0;
@@ -45,7 +45,7 @@ pub(crate) fn pad_text(split: Vec<(&str, Option<&str>)>) -> Vec<String> {
     transformed
 }
 
-pub(crate) fn split_text_and_comments(file: &str) -> Vec<(&str, Option<&str>)> {
+fn split_text_and_comments(file: &str) -> Vec<(&str, Option<&str>)> {
     let mut split: Vec<(&str, Option<&str>)> = Vec::new();
 
     for line in file.lines() {
@@ -63,7 +63,7 @@ pub(crate) fn split_text_and_comments(file: &str) -> Vec<(&str, Option<&str>)> {
     split
 }
 
-pub(crate) fn remove_trailing_whitespace(s: &str) -> &str {
+fn remove_trailing_whitespace(s: &str) -> &str {
     let characters: Vec<char> = s.chars().collect();
     let mut count = 0;
     for c in characters.iter().rev() {
@@ -77,7 +77,7 @@ pub(crate) fn remove_trailing_whitespace(s: &str) -> &str {
     text
 }
 
-pub(crate) fn remove_leading_whitespace(s: &str) -> &str {
+fn remove_leading_whitespace(s: &str) -> &str {
     let count = s.find(|c: char| !c.is_whitespace()).unwrap_or_default();
     s.split_at(count).1
 }
