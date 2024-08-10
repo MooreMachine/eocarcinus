@@ -16,3 +16,19 @@ pub(super) fn remove_leading_whitespace(s: &str) -> &str {
     let count = s.find(|c: char| !c.is_whitespace()).unwrap_or_default();
     s.split_at(count).1
 }
+
+#[cfg(test)]
+mod tests {
+    use super::remove_leading_whitespace;
+
+    #[test]
+    fn leading_whitespace() {
+        let leading = "    ";
+        let message = "Hello, world!";
+        let input = format!("{}{}", leading, message);
+
+        let result = remove_leading_whitespace(&input);
+
+        assert_eq!(result, message);
+    }
+}
