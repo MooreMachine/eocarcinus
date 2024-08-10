@@ -22,20 +22,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 }
 
 fn align_comments(file: String) {
-    let mut split: Vec<(&str, Option<&str>)> = Vec::new();
-
-    for line in file.lines() {
-        if line.contains(COMMENT_DELIMITER) {
-            let (text, comment) = line.split_once(COMMENT_DELIMITER).unwrap();
-            let text = remove_trailing_whitespace(text);
-            let comment = remove_leading_whitespace(comment);
-
-            split.push((text, Some(comment)));
-        } else {
-            let text = remove_trailing_whitespace(line);
-            split.push((text, None));
-        }
-    }
+    let split = split_text_and_comments(&file);
 
     let mut transformed = Vec::new();
     let mut buffer = Vec::new();
@@ -72,6 +59,24 @@ fn align_comments(file: String) {
     for line in transformed {
         println!("{}", line);
     }
+}
+
+fn split_text_and_comments<'a>(file: &'a String) -> Vec<(&'a str, Option<&'a str>)> {
+    let mut split: Vec<(&str, Option<&str>)> = Vec::new();
+
+    for line in file.lines() {
+        if line.contains(COMMENT_DELIMITER) {
+            let (text, comment) = line.split_once(COMMENT_DELIMITER).unwrap();
+            let text = remove_trailing_whitespace(text);
+            let comment = remove_leading_whitespace(comment);
+
+            split.push((text, Some(comment)));
+        } else {
+            let text = remove_trailing_whitespace(line);
+            split.push((text, None));
+        }
+    }
+    split
 }
 
 fn remove_trailing_whitespace(s: &str) -> &str {
