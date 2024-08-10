@@ -16,6 +16,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     let path = args.path;
     let file = read_to_string(path)?;
 
+    align_comments(file);
+
+    Ok(())
+}
+
+fn align_comments(file: String) {
     let mut split: Vec<(&str, Option<&str>)> = Vec::new();
 
     for line in file.lines() {
@@ -66,8 +72,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     for line in transformed {
         println!("{}", line);
     }
-
-    Ok(())
 }
 
 fn remove_trailing_whitespace(s: &str) -> &str {
