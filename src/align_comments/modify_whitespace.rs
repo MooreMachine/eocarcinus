@@ -19,7 +19,7 @@ pub(super) fn remove_leading_whitespace(s: &str) -> &str {
 
 #[cfg(test)]
 mod tests {
-    use super::remove_leading_whitespace;
+    use super::*;
 
     #[test]
     fn leading_whitespace() {
@@ -43,5 +43,29 @@ mod tests {
 
         assert!(!result.starts_with(char::is_whitespace));
         assert_eq!(result, format!("{}{}", message, trailing));
+    }
+
+    #[test]
+    fn trailing_whitespace() {
+        let trailing = "    ";
+        let message = "Hello, world!";
+        let input = format!("{}{}", message, trailing);
+
+        let result = remove_trailing_whitespace(&input);
+
+        assert_eq!(result, message);
+    }
+
+    #[test]
+    fn remove_trailing_leave_leading() {
+        let leading = "    ";
+        let trailing = "   ";
+        let message = "Hello, world!";
+        let input = format!("{}{}{}", leading, message, trailing);
+
+        let result = remove_trailing_whitespace(&input);
+
+        assert!(!result.ends_with(char::is_whitespace));
+        assert_eq!(result, format!("{}{}", leading, message));
     }
 }
