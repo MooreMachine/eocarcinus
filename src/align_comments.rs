@@ -45,7 +45,7 @@ pub(crate) fn pad_text(split: Vec<(&str, Option<&str>)>) -> Vec<String> {
     transformed
 }
 
-pub(crate) fn split_text_and_comments(file: &String) -> Vec<(&str, Option<&str>)> {
+pub(crate) fn split_text_and_comments(file: &str) -> Vec<(&str, Option<&str>)> {
     let mut split: Vec<(&str, Option<&str>)> = Vec::new();
 
     for line in file.lines() {
