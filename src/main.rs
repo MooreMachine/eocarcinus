@@ -9,8 +9,6 @@ struct Args {
     path: PathBuf,
 }
 
-const COMMENT_DELIMITER: &str = "//";
-
 fn main() -> Result<(), Box<dyn Error>> {
     let args = Args::parse();
     let path = args.path;

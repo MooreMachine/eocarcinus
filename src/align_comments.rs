@@ -1,4 +1,4 @@
-use super::COMMENT_DELIMITER;
+const COMMENT_DELIMITER: &str = "//";
 
 pub(crate) fn align_comments(file: String) {
     let split = split_text_and_comments(&file);
