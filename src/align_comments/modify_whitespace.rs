@@ -31,4 +31,17 @@ mod tests {
 
         assert_eq!(result, message);
     }
+
+    #[test]
+    fn remove_leading_leave_trailing() {
+        let leading = "    ";
+        let trailing = "   ";
+        let message = "Hello, world!";
+        let input = format!("{}{}{}", leading, message, trailing);
+
+        let result = remove_leading_whitespace(&input);
+
+        assert!(!result.starts_with(char::is_whitespace));
+        assert_eq!(result, format!("{}{}", message, trailing));
+    }
 }
