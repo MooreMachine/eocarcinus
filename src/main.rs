@@ -24,6 +24,14 @@ fn main() -> Result<(), Box<dyn Error>> {
 fn align_comments(file: String) {
     let split = split_text_and_comments(&file);
 
+    let transformed = pad_text(split);
+
+    for line in transformed {
+        println!("{}", line);
+    }
+}
+
+fn pad_text(split: Vec<(&str, Option<&str>)>) -> Vec<String> {
     let mut transformed = Vec::new();
     let mut buffer = Vec::new();
     let mut longest = 0;
@@ -55,10 +63,7 @@ fn align_comments(file: String) {
             transformed.push(format!("{} {} {}", a, COMMENT_DELIMITER, b));
         }
     }
-
-    for line in transformed {
-        println!("{}", line);
-    }
+    transformed
 }
 
 fn split_text_and_comments<'a>(file: &'a String) -> Vec<(&'a str, Option<&'a str>)> {
