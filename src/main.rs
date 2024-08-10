@@ -2,6 +2,8 @@ use std::{error::Error, fs::read_to_string, path::PathBuf};
 
 use clap::Parser;
 
+mod align_comments;
+
 #[derive(Parser)]
 struct Args {
     /// Path to file
@@ -18,5 +20,3 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     Ok(())
 }
-
-mod align_comments;
