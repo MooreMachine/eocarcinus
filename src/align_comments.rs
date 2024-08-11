@@ -36,7 +36,7 @@ fn pad_text(split: Vec<(&str, Option<&str>)>) -> Vec<String> {
 }
 
 fn align_consecutive_comments(
-    buffer: &Vec<(&str, &str)>,
+    buffer: &[(&str, &str)],
     longest: usize,
     transformed: &mut Vec<String>,
 ) {
