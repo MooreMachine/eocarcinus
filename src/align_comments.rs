@@ -1,5 +1,3 @@
-mod modify_whitespace;
-
 const COMMENT_DELIMITER: &str = "//";
 
 pub(crate) fn align_comments(file: String) {
