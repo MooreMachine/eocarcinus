@@ -25,3 +25,13 @@ fn missing_path_argument() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+#[test]
+fn align_comments_in_file() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin("eocarcinus")?;
+    cmd.arg("--path").arg("examples/plain.txt"); // Path relative to the command runner
+
+    let pretty = include_str!("../examples/plain_pretty.txt"); // Path relative to this file
+    cmd.assert().success().stdout(predicate::str::diff(pretty));
+    Ok(())
+}
