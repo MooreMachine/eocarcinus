@@ -22,12 +22,7 @@ fn pad_text(split: Vec<(&str, Option<&str>)>) -> Vec<String> {
             }
             buffer.push((text, comment));
         } else {
-            for (a, b) in &buffer {
-                let mut a = a.to_string();
-                let padding = longest - a.len();
-                a.push_str(&str::repeat(" ", padding));
-                transformed.push(format!("{} {} {}", a, COMMENT_DELIMITER, b));
-            }
+            align_consecutive_comments(&buffer, longest, &mut transformed);
             transformed.push(text.to_string());
             buffer.clear();
             longest = 0;
@@ -35,14 +30,18 @@ fn pad_text(split: Vec<(&str, Option<&str>)>) -> Vec<String> {
     }
 
     if !buffer.is_empty() {
-        for (a, b) in &buffer {
-            let mut a = a.to_string();
-            let padding = longest - a.len();
-            a.push_str(&str::repeat(" ", padding));
-            transformed.push(format!("{} {} {}", a, COMMENT_DELIMITER, b));
-        }
+        align_consecutive_comments(&buffer, longest, &mut transformed);
     }
     transformed
+}
+
+fn align_consecutive_comments(buffer: &Vec<(&str, &str)>, longest: usize, transformed: &mut Vec<String>) {
+    for (a, b) in buffer {
+        let mut a = a.to_string();
+        let padding = longest - a.len();
+        a.push_str(&str::repeat(" ", padding));
+        transformed.push(format!("{} {} {}", a, COMMENT_DELIMITER, b));
+    }
 }
 
 fn split_text_and_comments(file: &str) -> Vec<(&str, Option<&str>)> {
