@@ -53,12 +53,12 @@ fn split_text_and_comments(file: &str) -> Vec<(&str, Option<&str>)> {
     for line in file.lines() {
         if line.contains(COMMENT_DELIMITER) {
             let (text, comment) = line.split_once(COMMENT_DELIMITER).unwrap();
-            let text = modify_whitespace::remove_trailing_whitespace(text);
-            let comment = modify_whitespace::remove_leading_whitespace(comment);
+            let text = text.trim_end();
+            let comment = comment.trim_start();
 
             split.push((text, Some(comment)));
         } else {
-            let text = modify_whitespace::remove_trailing_whitespace(line);
+            let text = line.trim_end();
             split.push((text, None));
         }
     }
