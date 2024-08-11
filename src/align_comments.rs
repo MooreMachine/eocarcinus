@@ -35,7 +35,11 @@ fn pad_text(split: Vec<(&str, Option<&str>)>) -> Vec<String> {
     transformed
 }
 
-fn align_consecutive_comments(buffer: &Vec<(&str, &str)>, longest: usize, transformed: &mut Vec<String>) {
+fn align_consecutive_comments(
+    buffer: &Vec<(&str, &str)>,
+    longest: usize,
+    transformed: &mut Vec<String>,
+) {
     for (a, b) in buffer {
         let mut a = a.to_string();
         let padding = longest - a.len();
