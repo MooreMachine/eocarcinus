@@ -41,10 +41,14 @@ fn align_consecutive_comments(
     transformed: &mut Vec<String>,
 ) {
     for (text, comment) in buffer {
-        let mut text = text.to_string();
         let padding = longest - text.len();
-        text.push_str(&str::repeat(" ", padding));
-        transformed.push(format!("{} {} {}", text, COMMENT_DELIMITER, comment));
+        transformed.push(format!(
+            "{}{} {} {}",
+            text,
+            &str::repeat(" ", padding),
+            COMMENT_DELIMITER,
+            comment
+        ));
     }
 }
 
