@@ -3,16 +3,16 @@ const COMMENT_DELIMITER: &str = "//";
 pub(crate) fn align_comments(file: String) {
     let split = split_text_and_comments(&file);
 
-    let transformed = pad_text(split);
+    let transformed = pad_text(&split);
 
     for line in transformed {
         println!("{}", line);
     }
 }
 
-fn pad_text(split: Vec<(&str, Option<&str>)>) -> Vec<String> {
+fn pad_text(split: &[(&str, Option<&str>)]) -> Vec<String> {
     let mut transformed = Vec::new();
-    let mut buffer = Vec::new();
+    let mut buffer: Vec<(&str, &str)> = Vec::new();
     let mut longest = 0;
 
     for (text, comment) in split {
@@ -122,7 +122,7 @@ mod tests {
         let sample = format!("{}\n{}", input_a, input_b);
         let split = split_text_and_comments(&sample);
 
-        let result = pad_text(split);
+        let result = pad_text(&split);
 
         let mut it = result.iter();
         let expected_a = format!("{hello} // {this_is_a_comment}");
@@ -140,7 +140,7 @@ mod tests {
         let sample = format!("{}\n{}", with_comment, only_text);
         let split = split_text_and_comments(&sample);
 
-        let result = pad_text(split);
+        let result = pad_text(&split);
 
         let mut it = result.iter();
         let expected_with_comment = format!("{} {} {}", text, COMMENT_DELIMITER, comment); // The additional space has been removed
