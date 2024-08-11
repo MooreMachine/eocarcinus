@@ -16,7 +16,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let path = args.path;
     let file = read_to_string(path)?;
 
-    let result = align_comments::align_comments(file);
+    let result = align_comments::align_comments(file, "//");
 
     for line in result {
         println!("{}", line);
