@@ -68,4 +68,15 @@ mod tests {
         assert!(!result.ends_with(char::is_whitespace));
         assert_eq!(result, format!("{}{}", leading, message));
     }
+
+    #[test]
+    fn trailing_with_weird_characters() {
+        let trailing = "    ";
+        let message = "Man\u{0303}"; // part of "Mañana"
+        let input = format!("{}{}", message, trailing);
+
+        let result = remove_trailing_whitespace(&input);
+
+        assert_eq!(result, message);
+    }
 }
