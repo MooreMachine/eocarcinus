@@ -14,3 +14,14 @@ fn file_does_not_exist() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+#[test]
+fn missing_path_argument() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin("eocarcinus")?;
+
+    cmd.assert().failure().stderr(predicate::str::contains(
+        "required arguments were not provided",
+    ));
+
+    Ok(())
+}
