@@ -8,6 +8,7 @@ fn file_does_not_exist() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin("eocarcinus")?;
 
     cmd.arg("--path").arg("path/to/file/doesnt/exist");
+    cmd.arg("--delimiter").arg("//");
     cmd.assert()
         .failure()
         .stderr(predicate::str::contains("No such file or directory"));
@@ -30,6 +31,7 @@ fn missing_path_argument() -> Result<(), Box<dyn std::error::Error>> {
 fn align_comments_in_file() -> Result<(), Box<dyn std::error::Error>> {
     let mut cmd = Command::cargo_bin("eocarcinus")?;
     cmd.arg("--path").arg("samples/original/plain.txt"); // Path relative to the command runner
+    cmd.arg("--delimiter").arg("//");
 
     let pretty = include_str!("../samples/pretty/plain_pretty.txt"); // Path relative to this file
     cmd.assert().success().stdout(predicate::str::diff(pretty));
