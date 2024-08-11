@@ -3,9 +3,7 @@ const COMMENT_DELIMITER: &str = "//";
 pub(crate) fn align_comments(file: String) -> Vec<String> {
     let split = split_text_and_comments(&file);
 
-    let transformed = pad_text(&split);
-
-    transformed
+    pad_text(&split)
 }
 
 fn pad_text(split: &[(&str, Option<&str>)]) -> Vec<String> {
