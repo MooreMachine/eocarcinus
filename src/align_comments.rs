@@ -65,7 +65,7 @@ fn split_text_and_comments(file: &str) -> Vec<(&str, Option<&str>)> {
 
 #[cfg(test)]
 mod tests {
-    use crate::align_comments::{split_text_and_comments, COMMENT_DELIMITER};
+    use super::*;
 
     #[test]
     fn simple_line() {
@@ -102,5 +102,42 @@ mod tests {
 
         assert_eq!(result.first().unwrap().0, text);
         assert_eq!(result.first().unwrap().1.unwrap(), comment.trim());
+    }
+
+    #[test]
+    fn two_lines_with_comments() {
+        let hello = "hello";
+        let this_is_a_comment = "this_is_a_comment";
+        let you = "you";
+        let this_is_also_a_comment = "this_is_also_a_comment";
+        let input_a = format!("{hello} // {this_is_a_comment}");
+        let input_b = format!("{you} // {this_is_also_a_comment}");
+        let sample = format!("{}\n{}", input_a, input_b);
+        let split = split_text_and_comments(&sample);
+
+        let result = pad_text(split);
+
+        let mut it = result.iter();
+        let expected_a = format!("{hello} // {this_is_a_comment}");
+        let expected_b = format!("{you}   // {this_is_also_a_comment}");
+        assert_eq!(*it.next().unwrap(), expected_a);
+        assert_eq!(*it.next().unwrap(), expected_b);
+    }
+
+    #[test]
+    fn one_with_comments_another_without() {
+        let text = "Hello, world!";
+        let comment = "this is a comment";
+        let with_comment = format!("{}    {} {}", text, COMMENT_DELIMITER, comment);
+        let only_text = "No comment here";
+        let sample = format!("{}\n{}", with_comment, only_text);
+        let split = split_text_and_comments(&sample);
+
+        let result = pad_text(split);
+
+        let mut it = result.iter();
+        let expected_with_comment = format!("{} {} {}", text, COMMENT_DELIMITER, comment); // The additional space has been removed
+        assert_eq!(*it.next().unwrap(), expected_with_comment);
+        assert_eq!(*it.next().unwrap(), only_text);
     }
 }
