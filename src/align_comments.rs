@@ -62,3 +62,45 @@ fn split_text_and_comments(file: &str) -> Vec<(&str, Option<&str>)> {
     }
     split
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::align_comments::{split_text_and_comments, COMMENT_DELIMITER};
+
+    #[test]
+    fn simple_line() {
+        let text = "Hello, world!";
+        let comment = "this is a comment";
+        let input = format!("{} {} {}", text, COMMENT_DELIMITER, comment);
+
+        let result = split_text_and_comments(&input);
+
+        assert_eq!(result.first().unwrap().0, text);
+        assert_eq!(result.first().unwrap().1.unwrap(), comment);
+    }
+
+    #[test]
+    fn multi_line() {
+        let text = "Hello, world!";
+        let comment = "this is a comment";
+        let input = format!("{}\n{} {}", text, COMMENT_DELIMITER, comment);
+
+        let result = split_text_and_comments(&input);
+
+        let mut it = result.iter();
+        assert_eq!(*it.next().unwrap(), (text, None));
+        assert_eq!(*it.next().unwrap(), ("", Some(comment)));
+    }
+
+    #[test]
+    fn indented_line() {
+        let text = "    Hello, world";
+        let comment = "    this is a comment";
+        let input = format!("{} {} {}", text, COMMENT_DELIMITER, comment);
+
+        let result = split_text_and_comments(&input);
+
+        assert_eq!(result.first().unwrap().0, text);
+        assert_eq!(result.first().unwrap().1.unwrap(), comment.trim());
+    }
+}
